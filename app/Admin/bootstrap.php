@@ -1,5 +1,4 @@
 <?php
-
 /**
  * Laravel-admin - admin builder based on Laravel.
  * @author z-song <https://github.com/z-song>
@@ -19,3 +18,14 @@
  */
 
 Encore\Admin\Form::forget(['map', 'editor']);
+use Encore\Admin\Facades\Admin;
+use App\Admin\Extensions\Nav;
+
+Admin::navbar(function (\Encore\Admin\Widgets\Navbar $navbar) {
+
+    //$navbar->left('html...');
+    //$navbar->right('html...');
+    //$navbar->left(view('search-bar'));
+	//$navbar->right(new \app\Admin\Extensions\Nav\Links());
+	//$navbar->right(new \App\Admin\Extensions\Nav\Links());
+});

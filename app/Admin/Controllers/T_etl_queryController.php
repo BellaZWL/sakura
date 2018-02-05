@@ -10,9 +10,8 @@ use Encore\Admin\Facades\Admin;
 use Encore\Admin\Layout\Content;
 use App\Http\Controllers\Controller;
 use Encore\Admin\Controllers\ModelForm;
-use \Curl\Curl;
 
-class T_etl_themeController extends Controller
+class T_etl_queryController extends Controller
 {
     use ModelForm;
 
@@ -25,8 +24,8 @@ class T_etl_themeController extends Controller
     {
         return Admin::content(function (Content $content) {
 
-            $content->header('主题管理');
-            $content->description('可以新增，删除和修改');
+            $content->header('脚本管理');
+            $content->description('可以新增，删除和修改，以及测试与拉数');
             $content->body($this->grid());
         });
     }
@@ -44,7 +43,7 @@ class T_etl_themeController extends Controller
             $content->header('主题管理');
             $content->description('修改');
 
-            $content->body($this->form2()->edit($theme_id));
+            $content->body($this->form()->edit($theme_id));
         });
     }
 
@@ -61,7 +60,6 @@ class T_etl_themeController extends Controller
             $content->description('新建一个不存在的主题，如果已存在则给出提示');
 
             $content->body($this->form());
-
         });
     }
 
@@ -94,43 +92,25 @@ class T_etl_themeController extends Controller
     protected function form()
     {
         return Admin::form(T_etl_theme::class, function (Form $form) {
-			 
-			$form->text('theme_name', 'Theme_name')->help("抽数主题只能新建不能删除，请谨慎操作。");
-			$form->textarea('description','Description');
-                        $form->saving(function (Form $form) {
-                            $theme=dump($form->theme_name);
-                        });
-                        $form->disableReset();
-  
-                      $form->saving(function (Form $form) {
-                            $test=dump($form->theme_name);
-                            /*$curl= new Curl();
-			    $url=$curl->get('http://127.0.0.1:5000/api/create_theme?theme=bids2');
-                            $curl->get('http://127.0.0.1:5000/api/create_theme?theme='+$test);
-                            return curl_getinfo($url);
-                            */
-                            $url = "http://127.0.0.1:5000/api/create_theme?theme=$test";
-                            $res = curl_init();
-                            curl_setopt($res,CURLOPT_URL,$url);
-                            $result = curl_exec($res);
-                            curl_close($res);
-                            var_dump($result);
-                            return $result;
-                         });
- 
-                        //$form->display('theme_name', 'Theme_name');//只是显示
+                        $DBnames = [
+                          'chaoge',
+                          'bax',
+                          'mongodb'
+                        ];
+                        $ThemeNames = [
+                          'bids',
+                          'chaoge_babel'
+                        ];
+			$form->select('ThemeName','数据库')->options($ThemeNames);
+                        $form->select('DBname','抽数主题')->options($DBnames);
+                        $form->text('Tname','数据表');
+                        $form->switch('is_crease', '增量更新？'); 
+                        $form->text('increaseColumn','增量字段');                                                         $form->textarea('SQL','SQL')->help("SQL中包含过滤条件，建议不要修改，mongo数据默认输出所有字段，SQL只填写过滤条件");
+                        $form->switch('is_on', '立即启用？');
+            //$form->display('theme_name', 'Theme_name');//只是显示
 			//$form->display('description','Description');
             //$form->display('created_at', 'Created At');
             //$form->display('updated_at', 'Updated At');
         });
     }
-    protected function form2()
-    {
-        return Admin::form(T_etl_theme::class, function (Form $form) {
-
-                        $form->display('theme_name', 'Theme_name');
-                        $form->textarea('description','Description');
-                        $form->disableReset();
-          });
-      }
 }

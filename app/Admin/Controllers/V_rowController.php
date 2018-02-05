@@ -71,9 +71,9 @@ class V_rowController extends Controller
     protected function grid()
     {
         return Admin::grid(V_row::class, function (Grid $grid) {
-			$grid->etl_theme();
-			$grid->etl_db();
-			$grid->etl_table();
+			$grid->etl_theme()->sortable();
+			$grid->etl_db()->sortable();
+			$grid->etl_table()->sortable();
 		/*	
 			$grid->N()->display(function ($N){
 				$lableColor = 'success';

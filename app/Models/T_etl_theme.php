@@ -10,9 +10,4 @@ class T_etl_theme extends Model
 	protected $primaryKey='theme_id';
     public $timestamps = false;
 
-    public function t_etl_query()
-    {
-        return $this->belongsTo(T_etl_query::class);
-    }
-    
 }

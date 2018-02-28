@@ -25,7 +25,7 @@ class V_rowController extends Controller
         return Admin::content(function (Content $content) {
 
             $content->header('logs查看');
-            $content->description('查看logs的行数，N表示今天，N-1表示前一天，以此类推');
+            $content->description('查看logs的行数');
             $content->body($this->grid());
         });
     }
@@ -71,9 +71,9 @@ class V_rowController extends Controller
     protected function grid()
     {
         return Admin::grid(V_row::class, function (Grid $grid) {
-			$grid->etl_theme()->sortable();
-			$grid->etl_db()->sortable();
-			$grid->etl_table()->sortable();
+			$grid->etl_theme('抽数主题')->sortable();
+			$grid->etl_db('数据库')->sortable();
+			$grid->etl_table('数据表')->sortable();
 		/*	
 			$grid->N()->display(function ($N){
 				$lableColor = 'success';
@@ -98,13 +98,15 @@ class V_rowController extends Controller
 					  $row->style('color:red');
 		    });
 			
-			$grid->N('N(今日)')->sortable();
-			$grid->N_minus1('N-1')->sortable();
-			$grid->N_minus2('N-2')->sortable();
-			$grid->N_minus3('N-3')->sortable();
-			$grid->N_minus4('N-4')->sortable();
-			$grid->N_minus5('N-5')->sortable();
-			$grid->N_minus6('N-6')->sortable();
+			$grid->N(date("Y/m/d"))->sortable()->display(function () {
+    return number_format($this->N);
+});
+			$grid->N_minus1(date("Y/m/d",strtotime("-1 day")))->sortable()->display(function(){ return number_format($this->N_minus1); });
+			$grid->N_minus2(date("Y/m/d",strtotime("-2 day")))->sortable()->display(function(){ return number_format($this->N_minus2); });
+			$grid->N_minus3(date("Y/m/d",strtotime("-3 day")))->sortable()->display(function(){ return number_format($this->N_minus3); });
+			$grid->N_minus4(date("Y/m/d",strtotime("-4 day")))->sortable()->display(function(){ return number_format($this->N_minus4); });
+			$grid->N_minus5(date("Y/m/d",strtotime("-5 day")))->sortable()->display(function(){ return number_format($this->N_minus5); });
+			$grid->N_minus6(date("Y/m/d",strtotime("-6 day")))->sortable()->display(function(){ return number_format($this->N_minus6); });
 			$grid->disableExport();
 			$grid->disableActions();
 			$grid->disableRowSelector();

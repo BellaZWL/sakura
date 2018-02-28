@@ -74,19 +74,19 @@ class T_etl_dbController extends Controller
         return Admin::grid(T_etl_db::class, function (Grid $grid) {
 
             //$grid->DBid('DB_ID')->sortable();
-			$grid->DB('DB_name')->sortable();
-			$grid->Dbtype();
-			$grid->server('server_ip');
-			$grid->port();
-			$grid->UserName();
-			$grid->Password();
-			$grid->precommand();
+			$grid->DB('数据库')->sortable();
+                        $grid->DBname('数据库原名')->sortable();
+			$grid->Dbtype('数据库类型')->sortable();
+			$grid->server('服务器');
+			$grid->port('端口');
+			$grid->UserName('用户名');
+			$grid->precommand('字符编码');
 			$grid->disableExport();
 			$grid->disableRowSelector();
 			$grid->filter(function ($filter) {
 				$filter->disableIdFilter();
-                $filter->like('DB','DB_name');
-				$filter->like('Dbtype','Dbtype');
+                                $filter->like('DB','数据库');
+				$filter->like('Dbtype','数据库类型');
             });
            // $grid->created_at();
            //$grid->updated_at();
@@ -103,14 +103,24 @@ class T_etl_dbController extends Controller
         return Admin::form(T_etl_db::class, function (Form $form) {
 
             //$form->display('DBid', '数据源ID');
-            $form->text('DB', 'DB');
-			$form->text('DBname','DBname');
-			$form->text('Dbtype','Dbtype');
-			$form->text('server','server_ip');
-			$form->text('port','port');
-			$form->text('UserName','UserName');
-			$form->text('Password','Password');
-			$form->text('precommand','precommand');
+                        //$form->text('DB', 'DB');
+                        
+                        $form->hidden('DB');
+                        $form->html('<input type="text" name="DB" id="DB" hidden>');
+			$form->text('DBname','数据库名')->attribute('id','DBname');	
+                        $form->select('Dbtype','数据库类型')->options(["postgresql"=>"postgresql","mongodb"=>"mongodb","mysql"=>"mysql"]);
+			$form->text('server','服务器');
+			$form->text('port','端口');
+			$form->text('UserName','用户名');
+			$form->text('Password','密码');
+			$form->text('precommand','字符编码');
+                        $script = <<<SCRIPT
+                            $("#DBname").change(function(){
+  	                        console.log($("#DBname").val());
+                                $("#DB").val($("#DBname").val());
+});
+SCRIPT;
+                        Admin::script($script);
 			
             //$form->display('created_at', 'Created At');
             //$form->display('updated_at', 'Updated At');

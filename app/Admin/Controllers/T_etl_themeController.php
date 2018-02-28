@@ -74,14 +74,14 @@ class T_etl_themeController extends Controller
     {
         return Admin::grid(T_etl_theme::class, function (Grid $grid) {
 
-            $grid->theme_id()->sortable();
-			$grid->theme_name();
-			$grid->description();
+                       // $grid->theme_id()->sortable();
+			$grid->theme_name('抽数主题')->sortable();
+			$grid->description('描述');
 			$grid->disableExport();
 			$grid->disableRowSelector();
 			$grid->filter(function ($filter) {
 			$filter->disableIdFilter();
-            $filter->like('theme_name','theme_name');
+            $filter->like('theme_name','抽数主题');
             });
         });
     }
@@ -114,8 +114,8 @@ class T_etl_themeController extends Controller
                             curl_setopt($res,CURLOPT_URL,$url);
                             $result = curl_exec($res);
                             curl_close($res);
-                            var_dump($result);
-                            return $result;
+                            //return response()->json($result);
+                            return 'ok';
                          });
  
                         //$form->display('theme_name', 'Theme_name');//只是显示

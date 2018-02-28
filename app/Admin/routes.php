@@ -10,8 +10,9 @@ Route::group([
     'middleware'    => config('admin.route.middleware'),
 ], function (Router $router) {
 
-    $router->get('/', 'HomeController@index');
-	$router->resource('users',UserController::class);
+        //$router->get('/', 'HomeController@index');
+	$router->resource('/',HomeController::class);
+        $router->resource('users',UserController::class);
 	//$router->resource('movies',MovieController::class);//movies复数,表名和控制器里都是单数
 	$router->resource('t_etl_logs',T_etl_logController::class);
 	$router->resource('t_etl_themes',T_etl_themeController::class);

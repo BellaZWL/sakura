@@ -20,6 +20,11 @@
 Encore\Admin\Form::forget(['map', 'editor']);
 use Encore\Admin\Facades\Admin;
 use App\Admin\Extensions\Nav;
+use Encore\Admin\Grid\Column;
+use App\Admin\Extensions\Popover;
+
+Column::extend('popover', Popover::class);
+
 
 Admin::navbar(function (\Encore\Admin\Widgets\Navbar $navbar) {
 

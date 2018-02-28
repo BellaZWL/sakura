@@ -15,9 +15,10 @@ class HomeController extends Controller
     {
         return Admin::content(function (Content $content) {
 
-            $content->header('当前配置');
-            $content->description('当前版本和已安装插件');
-            //$content->row(Dashboard::title());
+            $content->header('Dashboard');
+            $content->description('Description...');
+
+            $content->row(Dashboard::title());
 
             $content->row(function (Row $row) {
 
